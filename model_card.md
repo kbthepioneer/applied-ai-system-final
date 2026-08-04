@@ -11,12 +11,16 @@ VibeFinder uses a weighted similarity scoring algorithm combined with pre-infere
 2. **Scoring Formula:**
    - **Genre Match:** $+2.0$ points
    - **Mood Match:** $+1.0$ point
-   - **Energy Alignment:** $+1.0 - \vert{}\text{song\_energy} - \text{target\_energy}\vert{}$ (Max $+1.0$ point)
+   - **Energy Alignment:** $+1.0 - |\text{song\_energy} - \text{target\_energy}|$ (Max $+1.0$ point)
 3. **Diversity Guardrail:** Caps top recommendations to a maximum of 2 tracks per artist to mitigate single-artist flooding.
 
 ## Intended & Non-Intended Use
 - **Intended Use:** Personal music discovery, playlist generation prototyping, and studying content-based recommendation logic.
 - **Non-Intended Use:** Commercial licensing, copyright enforcement, or high-stakes behavioral targeting.
+
+## Misuse & Prevention
+- **Potential Misuse:** Advertisers or bad actors could attempt to manipulate feature weights to artificially force specific sponsored tracks to the top of every recommendation query (e.g., preference spoofing or pay-for-play insertion).
+- **Prevention Strategy:** Input parameters are strictly schema-validated via pre-inference guardrails, and scoring weights are immutable at runtime to prevent external override attacks.
 
 ## Reliability, Testing & Evaluation Results
 The system was evaluated using an automated test harness (`tests/eval_harness.py`) and manual profile stress tests:
@@ -29,6 +33,7 @@ The system was evaluated using an automated test harness (`tests/eval_harness.py
 | Diversity Cap | Limit max 2 songs per artist in Top K | **Pass** | Prevents single-artist domination |
 
 - **Summary Metric:** 4/4 automated tests passed ($100\%$ Reliability Confidence Score).
+- **Testing Surprises:** During testing, I was surprised to find that when energy matching was heavily weighted, songs from completely unexpected genres (like Country or Soul) matched high-energy Pop profiles simply because their numerical energy scores aligned closely. This highlighted how easily simple math can create "unintended recommendation matches" without strict category filters.
 
 ## Biases and Limitations
 1. **Genre Over-Weighting:** Because genre matches award $+2.0$ points, a matching genre song with poor energy alignment often outranks a non-genre song with perfect mood and energy match.

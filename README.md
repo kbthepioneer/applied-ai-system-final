@@ -34,3 +34,8 @@ graph TD
         J --> L[Automated Test Harness / Confidence Evaluator]
         L --> M[Execution Logs & Metrics]
     end
+
+
+## Portfolio Artifact: What This Project Says About Me as an AI Engineer
+
+Building VibeFinder demonstrates my ability to transition an AI concept from an unconstrained prototype into a production-ready, reliable software system. It highlights my focus on system architecture, defensive engineering through guardrails, and rigorous automated testing. Rather than treating AI as a black box, I prioritize transparent, explainable decision-making and ethical safeguards against algorithmic bias.
