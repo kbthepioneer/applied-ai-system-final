@@ -1,0 +1,26 @@
+graph TD
+    %% Input Layer
+    A[User Profile Input] --> B[Guardrail Validation Layer]
+    C[(data/songs.csv)] --> D[Data Loader & Normalizer]
+
+    %% Guardrail Subsystem
+    subgraph Guardrails & Input Processing
+        B -->|Valid Prefs| E[Agentic Recommender Engine]
+        B -->|Invalid Prefs| F[Fallback / Log Error]
+    end
+
+    %% Scoring & Strategy Core
+    subgraph Core AI Engine
+        D --> E
+        E --> G[Scoring Strategy Execution]
+        G --> H[Weighted Scoring & Energy Distance Math]
+        H --> I[Diversity & Filter-Bubble Guardrail]
+    end
+
+    %% Output & Evaluation Layer
+    subgraph Output & Verification
+        I --> J[Ranked Recommendation Engine]
+        J --> K[Terminal Output & Reason Generator]
+        J --> L[Automated Test Harness / Confidence Evaluator]
+        L --> M[Execution Logs & Metrics]
+    end
